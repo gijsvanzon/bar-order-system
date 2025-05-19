@@ -7,9 +7,9 @@ import {
   Beer,
   Coffee,
   Wine,
-  Grape,
-  CoffeeIcon as Cocktail,
-  Droplet,
+  GlassWater,
+  Martini as Cocktail,
+  Beaker as Shot,
 } from "lucide-react";
 import DrinkSelector from "./drink-selector";
 import OrderSummary from "./order-summary";
@@ -39,39 +39,49 @@ export interface OrderItem {
 }
 
 const DRINKS: Drink[] = [
-  { id: "soda", name: "Soda", price: 0, icon: <Droplet className="h-5 w-5" /> },
+  {
+    id: "soda",
+    name: "Soda",
+    price: 0,
+    icon: <GlassWater className="h-5 w-5" />,
+  },
   { id: "beer", name: "Beer", price: 1, icon: <Beer className="h-5 w-5" /> },
   {
     id: "whiteWine",
-    name: "White Wine",
+    name: "Witte Wijn",
     price: 1,
     icon: <Wine className="h-5 w-5" />,
   },
   {
     id: "redWine",
-    name: "Red Wine",
+    name: "Rode Wijn",
     price: 1,
-    icon: <Grape className="h-5 w-5" />,
+    icon: <Wine className="h-5 w-5" />,
   },
   {
     id: "cocktailA",
-    name: "Cocktail A",
+    name: "Gin tonic",
     price: 2,
     icon: <Cocktail className="h-5 w-5" />,
   },
   {
     id: "cocktailB",
-    name: "Cocktail B",
+    name: "43 sprite",
     price: 2,
     icon: <Cocktail className="h-5 w-5" />,
   },
   {
     id: "cocktailC",
-    name: "Cocktail C",
+    name: "Mojito",
     price: 2,
     icon: <Cocktail className="h-5 w-5" />,
   },
-  { id: "shot", name: "Shot", price: 1, icon: <Coffee className="h-5 w-5" /> },
+  {
+    id: "shot",
+    name: "Shotje",
+    price: 1,
+    icon: <Shot className="h-5 w-5" />,
+  },
 ];
 
 export default function OrderSystem() {
