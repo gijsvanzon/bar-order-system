@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Home, ChevronLeft } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 
 interface HouseNumberPickerProps {
   selectedHouse: number | null;
@@ -104,8 +104,8 @@ export default function HouseNumberPicker({
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
-            <h3 className="text-lg font-medium">
-              House Numbers {selectedRange[0]}-{selectedRange[1]}
+            <h3 className="text-xl font-semibold">
+              Huisnummers {selectedRange[0]}-{selectedRange[1]}
             </h3>
           </div>
           <div className="grid grid-cols-5 gap-2 mb-4">
@@ -114,19 +114,10 @@ export default function HouseNumberPicker({
         </div>
       ) : (
         <div>
-          <h3 className="text-lg font-medium mb-4">
-            Select House Number Range
-          </h3>
+          <h2 className="text-xl font-semibold mb-4">Huisnummers</h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
             {renderRangeButtons()}
           </div>
-        </div>
-      )}
-
-      {selectedHouse && (
-        <div className="mt-4 p-3 bg-zinc-700 rounded-md flex items-center">
-          <Home className="h-5 w-5 mr-2 text-emerald-500" />
-          <span className="font-medium">Selected: House #{selectedHouse}</span>
         </div>
       )}
     </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Trash2, Users } from "lucide-react";
+import { Trash2, Users, Home } from "lucide-react";
 import type { OrderItem } from "./order-system";
 import type { AttendeesInfo } from "./attendees-section";
 
@@ -39,11 +39,17 @@ export default function OrderSummary({
 
   return (
     <div className="h-full flex flex-col">
-      <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+      <h2 className="text-xl font-semibold mb-4">Order</h2>
+      {houseNumber && (
+        <div className="mb-4 p-3 bg-zinc-700 rounded-md flex items-center">
+          <Home className="h-5 w-5 mr-2 text-emerald-500" />
+          <span className="font-medium">Geselecteerd: Huis #{houseNumber}</span>
+        </div>
+      )}
 
       {isEmpty ? (
         <div className="flex-1 flex items-center justify-center text-zinc-400 italic">
-          No items or attendees in order
+          Geen drankjes of aanwezigen geselecteerd
         </div>
       ) : (
         <div className="flex-1 overflow-y-auto max-h-[400px]">
@@ -51,15 +57,15 @@ export default function OrderSummary({
             <div className="mb-4 p-3 bg-zinc-700 rounded-md">
               <div className="flex items-center mb-2">
                 <Users className="h-5 w-5 mr-2" />
-                <h3 className="font-medium">Attendees</h3>
+                <h3 className="font-medium">Aanwezigen</h3>
               </div>
 
               <div className="space-y-2 pl-7">
                 {attendees.adults > 0 && (
                   <div className="flex justify-between">
                     <span>
-                      {attendees.adults} × Adult
-                      {attendees.adults !== 1 ? "s" : ""}
+                      {attendees.adults} × Volwassene
+                      {attendees.adults !== 1 ? "n" : ""}
                     </span>
                     <span>€ {(attendees.adults * adultPrice).toFixed(2)}</span>
                   </div>
@@ -68,10 +74,10 @@ export default function OrderSummary({
                 {attendees.children > 0 && (
                   <div className="flex justify-between">
                     <span>
-                      {attendees.children} × Child
-                      {attendees.children !== 1 ? "ren" : ""}
+                      {attendees.children} × Kind
+                      {attendees.children !== 1 ? "eren" : ""}
                     </span>
-                    <span>Free</span>
+                    <span>Gratis</span>
                   </div>
                 )}
               </div>
@@ -84,10 +90,10 @@ export default function OrderSummary({
                 <tr>
                   <th className="pb-2">Item</th>
                   <th className="pb-2 text-center" colSpan={3}>
-                    Quantity
+                    Aantal
                   </th>
-                  <th className="pb-2 text-right">Price</th>
-                  <th className="pb-2 text-right">Subtotal</th>
+                  <th className="pb-2 text-right">Prijs</th>
+                  <th className="pb-2 text-right">Subtotaal</th>
                   <th className="pb-2 w-10"></th>
                 </tr>
               </thead>
@@ -140,18 +146,18 @@ export default function OrderSummary({
         {hasItems && hasAttendees && (
           <div className="space-y-2 mb-3">
             <div className="flex justify-between items-center text-zinc-300">
-              <span>Drinks Subtotal:</span>
+              <span>Drankjes subtotaal:</span>
               <span>€ {drinksTotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between items-center text-zinc-300">
-              <span>Attendees Subtotal:</span>
+              <span>Aanwezigen subtotaal:</span>
               <span>€ {attendeesTotal.toFixed(2)}</span>
             </div>
           </div>
         )}
 
         <div className="flex justify-between items-center mb-4">
-          <span className="text-lg font-semibold">Total:</span>
+          <span className="text-lg font-semibold">Totaal:</span>
           <span className="text-2xl font-bold">€ {total.toFixed(2)}</span>
         </div>
 
@@ -161,10 +167,10 @@ export default function OrderSummary({
           className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-zinc-600 disabled:cursor-not-allowed text-white py-3 rounded-md font-medium transition-colors"
         >
           {isSubmitting
-            ? "Submitting..."
+            ? "Verzenden..."
             : houseNumber === null
-              ? "Select House Number"
-              : "Complete Order & Send to Make.com"}
+              ? "Selecteer een huisnummer"
+              : "Order verzenden"}
         </button>
       </div>
     </div>

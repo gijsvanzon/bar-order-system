@@ -47,19 +47,9 @@ export default function AttendeesSection({
       >
         <div className="flex items-center">
           <Users className="h-5 w-5 mr-2" />
-          <span className="font-medium">Attendees</span>
-          {(attendees.adults > 0 || attendees.children > 0) && (
-            <span className="ml-2 text-sm bg-emerald-600 text-white px-2 py-0.5 rounded-full">
-              {attendees.adults + attendees.children}
-            </span>
-          )}
+          <span className="font-medium">Aanwezigen</span>
         </div>
         <div className="flex items-center">
-          {totalAttendeeCost > 0 && (
-            <span className="mr-2 font-medium">
-              € {totalAttendeeCost.toFixed(2)}
-            </span>
-          )}
           {isExpanded ? (
             <ChevronUp className="h-5 w-5" />
           ) : (
@@ -73,9 +63,7 @@ export default function AttendeesSection({
           <div className="space-y-4">
             <div>
               <div className="flex justify-between items-center mb-2">
-                <label className="font-medium">
-                  Adults (€ {adultPrice.toFixed(2)} each):
-                </label>
+                <label className="font-medium">Volwassenen</label>
                 <div className="flex items-center">
                   <button
                     onClick={() => handleAdultsChange(attendees.adults - 1)}
@@ -99,7 +87,7 @@ export default function AttendeesSection({
 
             <div>
               <div className="flex justify-between items-center mb-2">
-                <label className="font-medium">Children (Free):</label>
+                <label className="font-medium">Kinderen (gratis):</label>
                 <div className="flex items-center">
                   <button
                     onClick={() => handleChildrenChange(attendees.children - 1)}

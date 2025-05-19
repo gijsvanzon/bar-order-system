@@ -162,11 +162,11 @@ export default function OrderSystem() {
       attendees.adults === 0 &&
       attendees.children === 0
     ) {
-      alert("Please add drinks or attendees to your order");
+      alert("Voeg drankjes of aanwezigen toe aan je order");
       return;
     }
     if (selectedHouse === null) {
-      alert("Please select a house number before completing the order");
+      alert("Selecteer op welk huisnummer de order geplaatst mag worden");
       return;
     }
 
@@ -239,57 +239,55 @@ export default function OrderSystem() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div className="space-y-6">
-        <div className="bg-zinc-800 p-4 rounded-lg">
-          <h2 className="text-xl font-semibold mb-4">House Number</h2>
-          <HouseNumberPicker
-            selectedHouse={selectedHouse}
-            onSelectHouse={setSelectedHouse}
-          />
-        </div>
-
-        <div className="bg-zinc-800 p-4 rounded-lg">
-          <h2 className="text-xl font-semibold mb-4">Select Drinks</h2>
-          <p className="text-zinc-400 mb-4">
-            Click a drink to add it to the order
-          </p>
-          <DrinkSelector
-            drinks={DRINKS}
-            orderItems={orderItems}
-            onSelectDrink={handleDrinkSelect}
-          />
-        </div>
-
-        <AttendeesSection
-          attendees={attendees}
-          onUpdateAttendees={handleUpdateAttendees}
-          adultPrice={ADULT_PRICE}
-        />
-      </div>
-
-      <div className="bg-zinc-800 p-4 rounded-lg">
-        <OrderSummary
-          items={orderItems}
-          attendees={attendees}
-          adultPrice={ADULT_PRICE}
-          onRemoveItem={removeItem}
-          onIncrementItem={incrementItem}
-          onDecrementItem={decrementItem}
-          drinksTotal={calculateDrinksTotal()}
-          attendeesTotal={calculateAttendeesTotal()}
-          total={calculateTotal()}
-          onSubmitOrder={handleSubmitOrder}
-          isSubmitting={isSubmitting}
-          houseNumber={selectedHouse}
-        />
-
-        {orderComplete && (
-          <div className="mt-4 p-3 bg-emerald-900/50 border border-emerald-700 rounded-md text-emerald-300">
-            Order successfully stored!
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-6">
+          <div className="bg-zinc-800 p-4 rounded-lg">
+            <HouseNumberPicker
+              selectedHouse={selectedHouse}
+              onSelectHouse={setSelectedHouse}
+            />
           </div>
-        )}
+
+          <div className="bg-zinc-800 p-4 rounded-lg">
+            <h2 className="text-xl font-semibold mb-4">Selecteer drankjes</h2>
+            <DrinkSelector
+              drinks={DRINKS}
+              orderItems={orderItems}
+              onSelectDrink={handleDrinkSelect}
+            />
+          </div>
+
+          <AttendeesSection
+            attendees={attendees}
+            onUpdateAttendees={handleUpdateAttendees}
+            adultPrice={ADULT_PRICE}
+          />
+        </div>
+
+        <div className="bg-zinc-800 p-4 rounded-lg">
+          <OrderSummary
+            items={orderItems}
+            attendees={attendees}
+            adultPrice={ADULT_PRICE}
+            onRemoveItem={removeItem}
+            onIncrementItem={incrementItem}
+            onDecrementItem={decrementItem}
+            drinksTotal={calculateDrinksTotal()}
+            attendeesTotal={calculateAttendeesTotal()}
+            total={calculateTotal()}
+            onSubmitOrder={handleSubmitOrder}
+            isSubmitting={isSubmitting}
+            houseNumber={selectedHouse}
+          />
+        </div>
       </div>
-    </div>
+
+      {orderComplete && (
+        <div className="mt-4 p-3 width-100 bg-emerald-900/50 border border-emerald-700 rounded-md text-emerald-300">
+          Order succesvol verzonden!
+        </div>
+      )}
+    </>
   );
 }
