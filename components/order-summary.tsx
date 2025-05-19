@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import { Trash2 } from "lucide-react"
-import type { OrderItem } from "./order-system"
+import { Trash2, Home } from "lucide-react";
+import type { OrderItem } from "./order-system";
 
 interface OrderSummaryProps {
-  items: OrderItem[]
-  onRemoveItem: (index: number) => void
-  onIncrementItem: (index: number) => void
-  onDecrementItem: (index: number) => void
-  total: number
-  onSubmitOrder: () => void
-  isSubmitting: boolean
-  houseNumber: number | null
+  items: OrderItem[];
+  onRemoveItem: (index: number) => void;
+  onIncrementItem: (index: number) => void;
+  onDecrementItem: (index: number) => void;
+  total: number;
+  onSubmitOrder: () => void;
+  isSubmitting: boolean;
+  houseNumber: number | null;
 }
 
 export default function OrderSummary({
@@ -26,10 +26,18 @@ export default function OrderSummary({
 }: OrderSummaryProps) {
   return (
     <div className="h-full flex flex-col">
+      {houseNumber && (
+        <div className="mb-4 flex items-center">
+          <Home className="h-5 w-5 mr-2 text-emerald-500" />
+          <span className="text-lg font-medium">House #{houseNumber}</span>
+        </div>
+      )}
       <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
 
       {items.length === 0 ? (
-        <div className="flex-1 flex items-center justify-center text-zinc-400 italic">No items in order</div>
+        <div className="flex-1 flex items-center justify-center text-zinc-400 italic">
+          No items in order
+        </div>
       ) : (
         <div className="flex-1 overflow-y-auto max-h-[400px]">
           <table className="w-full">
@@ -56,7 +64,9 @@ export default function OrderSummary({
                       -
                     </button>
                   </td>
-                  <td className="py-3 text-center font-medium w-8">{item.quantity}</td>
+                  <td className="py-3 text-center font-medium w-8">
+                    {item.quantity}
+                  </td>
                   <td className="py-3 text-center">
                     <button
                       onClick={() => onIncrementItem(index)}
@@ -65,10 +75,17 @@ export default function OrderSummary({
                       +
                     </button>
                   </td>
-                  <td className="py-3 text-right">€ {item.drink.price.toFixed(2)}</td>
-                  <td className="py-3 text-right">€ {(item.drink.price * item.quantity).toFixed(2)}</td>
+                  <td className="py-3 text-right">
+                    € {item.drink.price.toFixed(2)}
+                  </td>
+                  <td className="py-3 text-right">
+                    € {(item.drink.price * item.quantity).toFixed(2)}
+                  </td>
                   <td className="py-3">
-                    <button onClick={() => onRemoveItem(index)} className="text-red-400 hover:text-red-300 p-1">
+                    <button
+                      onClick={() => onRemoveItem(index)}
+                      className="text-red-400 hover:text-red-300 p-1"
+                    >
                       <Trash2 className="h-4 w-4" />
                     </button>
                   </td>
@@ -98,5 +115,5 @@ export default function OrderSummary({
         </button>
       </div>
     </div>
-  )
+  );
 }

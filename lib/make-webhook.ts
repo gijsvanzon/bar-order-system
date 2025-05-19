@@ -1,4 +1,3 @@
-import "getenv";
 // This is a mock implementation of a Make.com webhook integration
 
 interface OrderItem {
@@ -25,7 +24,7 @@ export async function sendOrderToMakeWebhook(
   console.log("Order data to be sent to Make.com webhook:", orderData);
 
   // Mock webhook URL (in a real app, this would be your actual Make.com webhook URL)
-  const webhookUrl = `https://hook.eu2.make.com/${process.env.makeUID}`;
+  const webhookUrl = `/api/order`;
 
   try {
     // Simulate API call

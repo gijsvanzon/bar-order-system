@@ -1,13 +1,14 @@
-"use client"
-
-import type { Drink } from "./order-system"
+import type { Drink } from "./order-system";
 
 interface DrinkSelectorProps {
-  drinks: Drink[]
-  onSelectDrink: (drink: Drink) => void
+  drinks: Drink[];
+  onSelectDrink: (drink: Drink) => void;
 }
 
-export default function DrinkSelector({ drinks, onSelectDrink }: DrinkSelectorProps) {
+export default function DrinkSelector({
+  drinks,
+  onSelectDrink,
+}: DrinkSelectorProps) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
       {drinks.map((drink) => (
@@ -22,5 +23,5 @@ export default function DrinkSelector({ drinks, onSelectDrink }: DrinkSelectorPr
         </button>
       ))}
     </div>
-  )
+  );
 }

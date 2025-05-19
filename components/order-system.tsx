@@ -10,7 +10,6 @@ import {
   Grape,
   CoffeeIcon as Cocktail,
   Droplet,
-  Home,
 } from "lucide-react";
 import DrinkSelector from "./drink-selector";
 import OrderSummary from "./order-summary";
@@ -194,13 +193,6 @@ export default function OrderSystem() {
       </div>
 
       <div className="bg-zinc-800 p-4 rounded-lg">
-        {selectedHouse && (
-          <div className="mb-4 flex items-center">
-            <Home className="h-5 w-5 mr-2 text-emerald-500" />
-            <span className="text-lg font-medium">House #{selectedHouse}</span>
-          </div>
-        )}
-
         <OrderSummary
           items={orderItems}
           onRemoveItem={removeItem}
