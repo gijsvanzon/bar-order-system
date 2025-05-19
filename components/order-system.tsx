@@ -5,11 +5,12 @@ import type React from "react";
 import { useState } from "react";
 import {
   Beer,
-  Coffee,
+  Baby,
   Wine,
   GlassWater,
   Martini as Cocktail,
   Beaker as Shot,
+  User,
 } from "lucide-react";
 import DrinkSelector from "./drink-selector";
 import OrderSummary from "./order-summary";
@@ -24,7 +25,9 @@ export type DrinkCategory =
   | "cocktailA"
   | "cocktailB"
   | "cocktailC"
-  | "shot";
+  | "shot"
+  | "grownups"
+  | "kids";
 
 export interface Drink {
   id: DrinkCategory;
@@ -81,6 +84,18 @@ const DRINKS: Drink[] = [
     name: "Shotje",
     price: 1,
     icon: <Shot className="h-5 w-5" />,
+  },
+  {
+    id: "grownup",
+    name: "Volwassenen",
+    price: 10,
+    icon: <User className="h-5 w-5" />,
+  },
+  {
+    id: "kids",
+    name: "Kinderen",
+    price: 0,
+    icon: <Baby className="h-5 w-5" />,
   },
 ];
 
