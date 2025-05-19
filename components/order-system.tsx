@@ -5,16 +5,15 @@ import type React from "react";
 import { useState } from "react";
 import {
   Beer,
-  Baby,
   Wine,
   GlassWater,
   Martini as Cocktail,
   Beaker as Shot,
-  User,
 } from "lucide-react";
 import DrinkSelector from "./drink-selector";
 import OrderSummary from "./order-summary";
 import HouseNumberPicker from "./house-number-picker";
+import AttendeesSection, { type AttendeesInfo } from "./attendees-section";
 import { sendOrderToMakeWebhook } from "@/lib/make-webhook";
 
 export type DrinkCategory =
@@ -25,9 +24,7 @@ export type DrinkCategory =
   | "cocktailA"
   | "cocktailB"
   | "cocktailC"
-  | "shot"
-  | "grownups"
-  | "kids";
+  | "shot";
 
 export interface Drink {
   id: DrinkCategory;
@@ -85,23 +82,18 @@ const DRINKS: Drink[] = [
     price: 1,
     icon: <Shot className="h-5 w-5" />,
   },
-  {
-    id: "grownup",
-    name: "Volwassenen",
-    price: 10,
-    icon: <User className="h-5 w-5" />,
-  },
-  {
-    id: "kids",
-    name: "Kinderen",
-    price: 0,
-    icon: <Baby className="h-5 w-5" />,
-  },
 ];
+
+// Price per adult attendee
+const ADULT_PRICE = 10.0;
 
 export default function OrderSystem() {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
   const [selectedHouse, setSelectedHouse] = useState<number | null>(null);
+  const [attendees, setAttendees] = useState<AttendeesInfo>({
+    adults: 0,
+    children: 0,
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
 
@@ -145,15 +137,34 @@ export default function OrderSystem() {
     }
   };
 
-  const calculateTotal = () => {
+  const handleUpdateAttendees = (newAttendees: AttendeesInfo) => {
+    setAttendees(newAttendees);
+  };
+
+  const calculateDrinksTotal = () => {
     return orderItems.reduce(
       (sum, item) => sum + item.drink.price * item.quantity,
       0,
     );
   };
 
+  const calculateAttendeesTotal = () => {
+    return attendees.adults * ADULT_PRICE;
+  };
+
+  const calculateTotal = () => {
+    return calculateDrinksTotal() + calculateAttendeesTotal();
+  };
+
   const handleSubmitOrder = async () => {
-    if (orderItems.length === 0) return;
+    if (
+      orderItems.length === 0 &&
+      attendees.adults === 0 &&
+      attendees.children === 0
+    ) {
+      alert("Please add drinks or attendees to your order");
+      return;
+    }
     if (selectedHouse === null) {
       alert("Please select a house number before completing the order");
       return;
@@ -166,12 +177,41 @@ export default function OrderSystem() {
       const orderData = {
         timestamp: new Date().toISOString(),
         houseNumber: selectedHouse,
-        items: orderItems.map((item) => ({
-          drinkName: item.drink.name,
-          quantity: item.quantity,
-          unitPrice: item.drink.price,
-          subtotal: item.drink.price * item.quantity,
-        })),
+        attendees: {
+          adults: attendees.adults,
+          children: attendees.children,
+          adultPrice: ADULT_PRICE,
+          attendeesTotal: calculateAttendeesTotal(),
+        },
+        items: [
+          ...orderItems.map((item) => ({
+            name: item.drink.name,
+            quantity: item.quantity,
+            unitPrice: item.drink.price,
+            subtotal: item.drink.price * item.quantity,
+          })),
+          ...(attendees.adults
+            ? [
+                {
+                  name: "Adult",
+                  quantity: attendees.adults,
+                  unitPrice: ADULT_PRICE,
+                  subtotal: attendees.adults * ADULT_PRICE,
+                },
+              ]
+            : []),
+          ...(attendees.children
+            ? [
+                {
+                  name: "Child",
+                  quantity: attendees.children,
+                  unitPrice: 0,
+                  subtotal: 0,
+                },
+              ]
+            : []),
+        ],
+        drinksTotal: calculateDrinksTotal(),
         total: calculateTotal(),
       };
 
@@ -180,6 +220,7 @@ export default function OrderSystem() {
 
       // Reset order
       setOrderItems([]);
+      setAttendees({ adults: 0, children: 0 });
       setOrderComplete(true);
 
       // Reset house number after order is complete
@@ -219,14 +260,24 @@ export default function OrderSystem() {
             onSelectDrink={handleDrinkSelect}
           />
         </div>
+
+        <AttendeesSection
+          attendees={attendees}
+          onUpdateAttendees={handleUpdateAttendees}
+          adultPrice={ADULT_PRICE}
+        />
       </div>
 
       <div className="bg-zinc-800 p-4 rounded-lg">
         <OrderSummary
           items={orderItems}
+          attendees={attendees}
+          adultPrice={ADULT_PRICE}
           onRemoveItem={removeItem}
           onIncrementItem={incrementItem}
           onDecrementItem={decrementItem}
+          drinksTotal={calculateDrinksTotal()}
+          attendeesTotal={calculateAttendeesTotal()}
           total={calculateTotal()}
           onSubmitOrder={handleSubmitOrder}
           isSubmitting={isSubmitting}
@@ -235,7 +286,7 @@ export default function OrderSystem() {
 
         {orderComplete && (
           <div className="mt-4 p-3 bg-emerald-900/50 border border-emerald-700 rounded-md text-emerald-300">
-            Order successfully sent to Make.com webhook!
+            Order successfully stored!
           </div>
         )}
       </div>

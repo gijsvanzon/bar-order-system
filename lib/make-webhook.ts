@@ -1,7 +1,7 @@
 // This is a mock implementation of a Make.com webhook integration
 
 interface OrderItem {
-  drinkName: string;
+  name: string;
   quantity: number;
   unitPrice: number;
   subtotal: number;
