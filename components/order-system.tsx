@@ -198,7 +198,11 @@ export default function OrderSystem() {
           <p className="text-zinc-400 mb-4">
             Click a drink to add it to the order
           </p>
-          <DrinkSelector drinks={DRINKS} onSelectDrink={handleDrinkSelect} />
+          <DrinkSelector
+            drinks={DRINKS}
+            orderItems={orderItems}
+            onSelectDrink={handleDrinkSelect}
+          />
         </div>
       </div>
 
