@@ -45,7 +45,7 @@ const DRINKS: Drink[] = [
     price: 0,
     icon: <GlassWater className="h-5 w-5" />,
   },
-  { id: "beer", name: "Beer", price: 1, icon: <Beer className="h-5 w-5" /> },
+  { id: "beer", name: "Bier", price: 1, icon: <Beer className="h-5 w-5" /> },
   {
     id: "whiteWine",
     name: "Witte Wijn",
